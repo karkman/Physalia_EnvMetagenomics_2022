@@ -15,7 +15,7 @@ Recent bioinformatic developments now allow the recovery of metagenome-assembled
 
 During this one week course you will learn state-of-the-art bioinformatic approaches to analyse metagenomic data.
 We will cover both both read- and assembly-based methods, focusing on the strenght of each of these methods depending on the research question.
-We will use data from both short- (e.g. Illumina) and long-read (e.g. Nanopore) sequencing platforms, as it improves dramatically MAG assembling and binning compared to short-read-only methods.
+We will use data from both short- (e.g. Illumina) and long-read (e.g. Nanopore/PacBio) sequencing platforms, as it improves dramatically MAG assembling and binning compared to short-read-only methods.
 
 ## Prerequisites
 We assume some basic awareness of analysis of UNIX and molecular biology.
@@ -31,7 +31,7 @@ By completing this course, you will:
 
 ## Program
 
-### Monday 19.04
+### Monday 4.4.2022
 [Click here](Day1/)
 
 - Course outline and practical info
@@ -40,23 +40,23 @@ By completing this course, you will:
 - Setting up the Amazon Cloud
 - QC and trimming
 
-### Tuesday 20.04
+### Tuesday 5.4.2022
 [Click here](Day2/)
 
 - Read-based analyses
 
-### Wednesday 21.04
+### Wednesday 6.4.2022
 [Click here](Day3/)
 
 - Metagenome assembly
 - Assembly QC
 
-### Thursday 22.04
+### Thursday 7.4.2022
 [Click here](Day4/)
 
 - Genome-resolved metagenomics
 
-### Friday 23.04
+### Friday 8.4.2022
 [Click here](Day5/)
 
 - MAG annotation and downstream analyses
