@@ -1,16 +1,22 @@
 #!/bin/bash
+
+# Define list of samples
+SAMPLES='ERR1713356 ERR2592255 ERR2683233 ERR4682862'
+
+# Activate the conda environment
 conda activate QC_env
 
+# Create output folder
 mkdir TRIMMED
 
-for SAMPLE in Sample01 Sample02 Sample03 Sample04; do
-  cutadapt RAWDATA/$SAMPLE.NOVASEQ.R1.fastq.gz \
-           RAWDATA/$SAMPLE.NOVASEQ.R2.fastq.gz \
-           -o TRIMMED/$SAMPLE.NOVASEQ.R1.fastq.gz \
-           -p TRIMMED/$SAMPLE.NOVASEQ.R2.fastq.gz \
-           -a CTGTCTCTTATACACATCTCCGAGCCCACGAGAC \
-           -A CTGTCTCTTATACACATCTGACGCTGCCGACGA \
-           -m 50 \
-           -j 4 \
-           --nextseq-trim 20 > TRIMMED/$SAMPLE.cutadapt.log.txt
+for SAMPLE in $SAMPLES; do 
+  cutadapt ~/Share/RAWDATA/$SAMPLE.R1.fastq.gz \
+           ~/Share/RAWDATA/$SAMPLE.R2.fastq.gz \
+           -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCA \
+           -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT \
+           -o TRIMMED/$SAMPLE.R1.fastq.gz \
+           -p TRIMMED/$SAMPLE.R2.fastq.gz \
+           --minimum-length 50 \
+           --quality-cutoff 20 \
+           --cores 4 > TRIMMED/$SAMPLE.cutadapt.log.txt
 done
