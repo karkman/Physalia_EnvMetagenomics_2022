@@ -9,6 +9,7 @@ conda activate QC_env
 # Create output folder
 mkdir TRIMMED
 
+# Run Cutadapt
 for SAMPLE in $SAMPLES; do 
   cutadapt ~/Share/RAWDATA/$SAMPLE.R1.fastq.gz \
            ~/Share/RAWDATA/$SAMPLE.R2.fastq.gz \
