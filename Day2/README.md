@@ -66,3 +66,49 @@ Can we see major differences in community structure between the two seasons? For
 - Are samples from the same season more similar to each other than to the other samples? **HINT:** Try changing the view to the Genus Rank and then going to "Window" > "Cluster Analysis" and chosing "UPGMA Tree".
 - What is the most abundant phylum in the summer samples? And in the winter samples?
 - Now looking at the functional profiles (e.g. SEED), can you spot differences between the two seasons? Specially regarding energy and metabolism?
+
+## Metagenome assembly
+
+Now we will go through the metagenomic assembly part, but not run the actual assembly script.  
+The assembly takes some time and needs more resources than we have on our instance.  
+So the assemblies will be provided.  
+
+### Short-read assembly with MEGAHIT
+The short reads will be assembled using [MEGAHIT](https://github.com/voutcn/megahit).  
+Although, we won't be running the actual assembly, `MEGAHIT` is installed on our instance.  
+
+So have a look at the different options you can change in the assembly.  
+You can find more information about `MEGAHIT` in their [wiki](https://github.com/voutcn/megahit/wiki).  
+You don't need to understand each and every option, but some of them can be important.
+
+```bash
+conda activate assembly_env
+megahit -h
+```
+
+#### Questions about MEGAHIT
+1. __What do you think would be important? What would you change or set?__  
+2. __What version of MEGAHIT have we installed? Is it the latest?__
+
+After that have a look at the assembly script `Scripts/MEGAHIT.sh`.  
+Open it with a text editor or print it on the screen with `less`.  
+
+__Would you have changed something else and why?__
+
+When we're satisfied with the assembly options, we would start the assembly and wait from few hours to several days depending on your data and computational resources.  
+But we won't do it, since we don't have to time or the resources.  
+Instead, you can use the assemblies we provide in the shared foler:
+
+```bash
+ls ~/Share/ASSEMBLY
+```
+
+If you look inside the folders for each of the samples, you will see several files.  
+But the most important is the `final.contigs.fa` which cointains the final contigs as one might expect.
+You'll find the assembly logs inside the assembly folder for each sample.  
+Start by looking at the assembly logs with `less`.
+
+#### Questions about the assembly
+1. __Which version of megahit did we actually use for the assemblies?__
+2. __How long did the assemblies take to finish?__
+3. __Which sample gave the longest contig?__
