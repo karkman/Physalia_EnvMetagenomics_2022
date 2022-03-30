@@ -4,7 +4,7 @@
 |-----------|---------------------|--------------------------------------|-----------------------------------|
 | Morning   | Read-based analyses | [Link here](read-based-analyses.pdf) | [Link here](#read-based-analyses) |
 | Afternoon | Metagenome assembly | [Link here](metagenome-assembly.pdf) | [Link here](#metagenome-assembly) |
-| Afternoon | Metagenome QC       |                                      | [Link here](#metagenome-QC)       |
+| Afternoon | Assembly QC         |                                      | [Link here](#assembly-QC)         |
 
 ## Read-based analyses
 
