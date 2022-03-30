@@ -4,6 +4,7 @@
 |-----------|---------------------|--------------------------------------|-----------------------------------|
 | Morning   | Read-based analyses | [Link here](read-based-analyses.pdf) | [Link here](#read-based-analyses) |
 | Afternoon | Metagenome assembly | [Link here](metagenome-assembly.pdf) | [Link here](#metagenome-assembly) |
+| Afternoon | Metagenome QC       |                                      | [Link here](#metagenome-QC)       |
 
 ## Read-based analyses
 
@@ -82,7 +83,7 @@ You can find more information about `MEGAHIT` in their [wiki](https://github.com
 You don't need to understand each and every option, but some of them can be important.
 
 ```bash
-conda activate assembly_env
+conda activate megahit_env
 megahit -h
 ```
 
@@ -112,3 +113,50 @@ Start by looking at the assembly logs with `less`.
 1. __Which version of megahit did we actually use for the assemblies?__
 2. __How long did the assemblies take to finish?__
 3. __Which sample gave the longest contig?__
+
+### Long-read assembly?
+
+## Assembly QC
+
+Now we have all the assemblies ready and we can use [MetaQUAST](http://bioinf.spbau.ru/metaquast) to check how the assemblies look like.  
+Let's activate the `MetaQuast` environment:
+
+```bash
+conda activate quast_env
+```
+
+Let's now have a look at the different options `MetaQuast` has with `metaquast -h`.  
+You should at least check the options we are using.  
+We will run `MetaQuast` inside a screen using the command `screen`.  
+This way you can do other things or log out while `MetaQuast` is running and it won't be interrupted.
+
+Mini manual for `screen`:
+* `screen -S NAME` - open a screen and give it a session name `NAME`
+* `screen` - open new screen without specifying any name
+* `screen -ls` - list all open sessions
+* `ctrl` + `a` + `d` - to detach from a session (from inside the screen)
+* `screen -r` - re-attach to a detached session
+* `screen -rD` - re-attach to a attached session
+* `exit` - close the screen and kill all processes running inside the screen (from inside the screen)
+
+```bash
+screen -S metaquast
+
+metaquast.py ASSEMBLY/*/final.contigs.fa \ # ADD THE LONG-READ ASSEMBLY HERE
+             --output-dir ASSEMBLY_QC \
+             --threads 4 \
+             --max-ref-number 0 \
+             --min-contig 0
+```
+Detach from the screen with `ctrl` + `a` + `d`.  
+This will take ~5 min.  
+You can re-attach with `screen -r metaquast` to check whther it has finished.  
+After it is done, we will go through the report together.  
+Download the file `ASSEMBLY_QC/report.html` to your computer using FileZilla and open it on your favourite browser.
+
+#### Questions about the assembly QC
+
+1. __Which assembly has the longest contig when also long reads assemblies are included?__
+2. __Which assembly had the most contigs?__
+3. __Were the long read assemblies different from the corresponding short read assemblies?__
+4. __If yes, in what way?__
