@@ -44,20 +44,20 @@ By completing this course, you will:
 [Click here](Day2/)
 
 - Read-based analyses
+- Metagenome assembly
+- Assembly QC
 
 ### Wednesday 6.4.2022
 [Click here](Day3/)
 
-- Metagenome assembly
-- Assembly QC
+- Genome-resolved metagenomics with anvi'o
 
 ### Thursday 7.4.2022
 [Click here](Day4/)
 
-- Genome-resolved metagenomics
+- 
 
 ### Friday 8.4.2022
 [Click here](Day5/)
 
-- MAG annotation and downstream analyses
-- Closing remarks and open discussion
+- 

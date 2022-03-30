@@ -1,139 +1,135 @@
 # Day 3
 
-| Time      | Activity            | Slides                               | Hands-on                          |
-|-----------|---------------------|--------------------------------------|-----------------------------------|
-| Morning   | Metagenome assembly | [Link here](Assembly-and-QC.pdf)     | [Link here](#metagenome-assembly) |
-| Afternoon | Assembly QC         |                                      | [Link here](#assembly-qc)         |
+| Time                | Activity                                 | Slides                                        | Hands-on                                   |
+|---------------------|------------------------------------------|-----------------------------------------------|--------------------------------------------|
+| Morning & afternoon | Genome-resolved metagenomics with anvi'o | [Link here](genome-resolved-metagenomics.pdf) | [Link here](#genome-resolved-metagenomics) |
 
-## Metagenome assembly
+## Genome-resolved metagenomics with anvi'o
 
-First log in to our cloud instance with the IP provided and `cd` to your working directory.  
-Let's then pull possible changes in the Github repository:
+**TO DO:** Add short intro about anvi'o
 
-```bash
-cd physalia_metagenomics
-git pull origin main
-```
-
-After that we're gonna go through the metagenomic assembly part, but not run the actual assembly script.  
-The assembly takes days and needs more resources than we have on our instance.  
-So the assemblies will be provided.  
-
-### Short-read assembly with megahit
-The short reads will be assembled using `megahit`.  
-Although, we won't be running the actual assembly, `megahit` is installed on our instance.  
-
-So have a look at the different options you can change in the assembly.  
-You can find more information about `megahit` from the [megahit wiki](https://github.com/voutcn/megahit/wiki).  
-You don't need to understand each and every option, but some of them can be important.
+### Preparing the data
+First login to the Amazon Cloud, `cd` to your working directory and pull the changes from Github.
 
 ```bash
-conda activate assembly_env
-megahit -h
+cd ~/Physalia_EnvMetagenomics_2022
+git pull
 ```
 
-#### Questions about megahit
-1. __What do you think would be important? What would you change or set?__  
-2. __What version of megahit have we installed? Is it the latest?__
-
-After that have a look at the assembly script `Scripts/MEGAHIT.sh`.  
-Open it with a text editor or print it on the screen with `less`.  
-
-__Would you have changed something else and why?__
-
-When we're satisfied with the assembly options, we would start the assembly and wait from few hours to several days depending on your data and computational resources.  
-But we won't do it, since we don't have to time or the resources.  
-Instead, you can use the assemblies and log files we have made and make soft link as before to your own folder.  
-We have removed some intermediate files, so the folder contains only some of the files `megahit` normally produces.  
-But the most important is the `final.contigs.fa` which cointains the final contigs as one might expect.
-
+And let's create a directory to store the binning files and activate the conda environment:
 
 ```bash
-cd ~/physalia_metagenomics
-ln -s ~/Share/ASSEMBLY_MEGAHIT/ ./
+mkdir ANVIO
+conda activate anvio7_env
 ```
 
-Inside the folder you'll find the assembly logs inside the assembly folder for each sample.  
-Start by looking at the assembly logs with `less`.
+Because we have four assemblies, we will run each step below essentially four times.  
+One way to do it is manually: you run the same command four times, each time changing by hand the name of the input and output files to match one sample at a time.  
+A better way to this - especilly if you have tens, hundreds, thousands of samples - is by automating this process.  
+One way of automating a script is by creating a `for loop`, as we have done e.g. when we assembled our metagenomes.  
+So take a look again at the `MEGAHIT` script from yesterday to see how the syntax of the `for loop` works, and let's create loops to run the commands below to prepare the files for anvi'o.  
 
-#### Questions about the assembly
-1. __Which version of megahit did we actually use for the assemblies?__
-2. __How long did the assemblies take to finish?__
-3. __Which sample gave the longest contig?__
-
-### Long-read assembly with metaFlye
-We will also assemble the Nanopore data using `metaFlye` (which is actually the genome assembler `Flye` but with different settings that are optimized for metagenomes).  
-You can read more about `Flye/metaFlye` [here](https://github.com/fenderglass/Flye).
-
-The script we are using to run `metaFlye` is quite simple, but let's take a look at it using `less` (the script is located in `Scripts/METAFLYE.sh`).  
-
-Again, we are not actually running the long-read assembly as this takes some time.  
-Instead, you will find the assemblies already made in `Share/ASSEMBLY_METAFLYE`.  
-Let's make soft link to the assembly folder as we have done before for `megahit`:
+To make it things more organized, let's create a directory for each sample inside the `ANVIO` directory:
 
 ```bash
-cd ~/physalia_metagenomics
-ln -s ~/Share/ASSEMBLY_METAFLYE/ ./
+mkdir $SAMPLE
 ```
 
-Using `less`, look at the log files from `metaFlye` that are inside this folder (`Sample03.metaflye.log.txt` and `Sample04.metaflye.log.txt`) and answer the questions below.
-
-#### Questions about the assembly
-1. __How many contigs do we have in each assembly?__
-2. __What is the total assembly lenght of each assembly?__
-
-The downside of Nanopore (at the moment), is a somewhat higher error rate than Illumina.  
-But because we have sequenced the same samples using both Illumina and Nanopore, we can take advantage of the longer reads from Nanopore and the better error rates from Illumina.  
-We do that by correcting (polishing) the Nanopore assemblies using the short Illumina reads.  
-This will be done using `Pilon` ([take a look here](https://github.com/broadinstitute/pilon/wiki)).
-
-Let's take a look at the script that is located in `Scripts/PILON.sh`.  
-
-You will find inside the assemblies folders (`ASSEMBLY_METAFLYE/Sample03` and `ASSEMBLY_METAFLYE/Sample04`) the output from `Pilon`.  
-The `pilon.fasta` file is the corrected assembly, and the `pilon.changes` file is a list of every single change that `Pilon` made to the `metaFlye` assemblies.  
-Let's take a look at the first few lines of these files using head:
+The first thing we will do is reformat the `FASTA` files so that the headers are clean.  
+In the command below we will also remove contigs shorter than 1,000 bp, to make things easier during binning.  
 
 ```bash
-head ASSEMBLY_METAFLYE/Sample03/pilon.changes
-head ASSEMBLY_METAFLYE/Sample04/pilon.changes
+anvi-script-reformat-fasta ASSEMBLY/$SAMPLE/final.contigs.fa \
+                           --output-file ANVIO/$SAMPLE/CONTIGS_2500nt.fa \
+                           --report-file ANVIO/$SAMPLE/CONTIGS_reformat.txt \
+                           --prefix $SAMPLE \
+                           --min-len 1000 \
+                           --simplify-names
 ```
 
-## Assembly QC
-
-Now we have all the assemblies ready and we can use `metaquast` for quality control.  
-Activate the assembly environment if it's not already activated and run metaquast on all short- and long-read assemblies.
-
-But first, have a look at the different options metaquast has with `metaquast -h`.  
-You should at least check the options we are using.  
-We will run `metaquast` inside a screen using the command `screen`. This way you can do other things or log out while `metaquast` is running and it won't be interrupted.
-
-Mini manual for `screen`:
-* `screen -S NAME` - open a screen and give it a session name `NAME`
-* `screen` - open new screen without specifying any name
-* `screen -ls` - list all open sessions
-* `ctrl + a` + `d` - to detach from a session (from inside the screen)
-* `screen -r` - re-attach to a detached session
-* `screen -rD` - re-attach to a attached session
-* `exit` - close the screen and kill all processes running inside the screen (from inside the screen)
+**TO DO:** Add text about contigs db
 
 ```bash
-screen -S metaquast
-metaquast.py ASSEMBLY_METAFLYE/*/pilon.fasta ASSEMBLY_MEGAHIT/*/final.contigs.fa \
-               -o METAQUAST_FAST \
-               --threads 2 \
-               --fast \
-               --max-ref-number 0 &> metaquast.fast.log.txt
+anvi-gen-contigs-database --contigs-fasta ANVIO/$SAMPLE/CONTIGS_2500nt.fa \
+                          --output-db-path ANVIO/$SAMPLE/CONTIGS.db \
+                          --project-name $SAMPLE \
+                          --num-threads 4
 ```
-Detach from the screen with `ctrl+a` + `d`.  
-This will take ~10 min.  You can re-attach with `screen -r metaquast` to check whther it has finished.  
-After it is done, we will go through the report together. Open the report file in the output folder:
+
+**TO DO:** Add text about the hmms command
 
 ```bash
-less METAQUAST_FAST/report.txt
+anvi-run-hmms --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+              --num-threads 4
 ```
-#### Questions about the assembly QC
 
-1. __Which assembly has the longest contig when also long reads assemblies are included?__
-2. __Which assembly had the most contigs?__
-3. __Were the long read assemblies different from the corresponding short read assemblies?__
-4. __If yes, in what way?__
+**TO DO:** Add text about the scg taxonomy
+
+```bash
+anvi-run-scg-taxonomy --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+                      --num-threads 4
+```
+
+**TO DO:** Add text about mapping  
+Pay attention that below there will be an inception thing going on: a `for loop` inside another `for loop`!
+
+```bash
+mkdir ANVIO/$SAMPLE/MAPPING
+
+bowtie2-build ANVIO/$SAMPLE/CONTIGS_2500nt.fa \
+              ANVIO/$SAMPLE/MAPPING/contigs
+
+for FILE in $SAMPLES; do
+  bowtie2 -1 TRIMMED/$FILE.R1.fastq.gz \
+          -2 TRIMMED/$FILE.R2.fastq.gz \
+          -S ANVIO/$SAMPLE/MAPPING/$FILE.sam \
+          -x ANVIO/$SAMPLE/MAPPING/contigs \
+          --threads 4 \
+          --no-unal
+
+  samtools view -F 4 -bS ANVIO/$SAMPLE/MAPPING/$FILE.sam | samtools sort > ANVIO/$SAMPLE/MAPPING/$FILE.bam
+  samtools index ANVIO/$SAMPLE/MAPPING/$FILE.bam
+
+  rm -f ANVIO/$SAMPLE/MAPPING/$FILE.sam
+done
+```
+
+**TO DO:** Add text about profile db
+
+```bash
+mkdir ANVIO/$SAMPLE/PROFILE
+
+for FILE in $SAMPLES; do
+  anvi-profile --input-file ANVIO/$SAMPLE/MAPPING/$FILE.bam \
+               --output-dir ANVIO/$SAMPLE/PROFILE/$FILE \
+               --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+               --num-threads 4
+done
+```
+
+**NOTE:** `for loop` ends here.  
+**TO DO:** Add text about merged profiles
+
+```bash
+anvi-merge ANVIO/$SAMPLE/PROFILE/*/PROFILE.db \
+           --output-dir ANVIO/$SAMPLE/MERGED \
+           --contigs-db ANVIO/$SAMPLE/CONTIGS.db
+```
+
+### Tunneling the interactive interface
+
+Although you can install anvi'o on your own computer (and you're free to do so, but we won't have time to help in that), we will run anvi'o in the cloud and tunnel the interactive interface to your local computer.  
+To be able to to do this, everyone needs to use a different port for tunneling and your port will be __8080 + you user number__. So `user1` will use port 8081.
+
+#### Linux/Mac
+
+```bash
+ssh -i KEY.pem -L PORT:localhost:PORT USERX@IP-ADDRESS
+```
+
+#### Windows (MobaXterm)
+
+<!-- Add instructions here -->
+
+### Binning MAGs
+
