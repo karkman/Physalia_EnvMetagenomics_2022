@@ -47,7 +47,8 @@ anvi-script-reformat-fasta ASSEMBLY/$SAMPLE/final.contigs.fa \
                            --simplify-names
 ```
 
-**TO DO:** Add text about contigs db
+Next thing after some cleaning is to build a contigs database from our assembly.  
+In this step anvi'o will call genes from each contig using prodigal, calculate kmer frequencies for each contig with k=4 and "soft" split each contig longer than 20 kbp for visual reasons.
 
 ```bash
 anvi-gen-contigs-database --contigs-fasta ANVIO/$SAMPLE/CONTIGS_2500nt.fa \
@@ -56,7 +57,7 @@ anvi-gen-contigs-database --contigs-fasta ANVIO/$SAMPLE/CONTIGS_2500nt.fa \
                           --num-threads 4
 ```
 
-**TO DO:** Add text about the hmms command
+In this step anvi'o will identify different sets of marker genes with HMM models.
 
 ```bash
 anvi-run-hmms --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
@@ -132,4 +133,3 @@ ssh -i KEY.pem -L PORT:localhost:PORT USERX@IP-ADDRESS
 <!-- Add instructions here -->
 
 ### Binning MAGs
-
