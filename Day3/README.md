@@ -57,21 +57,24 @@ anvi-gen-contigs-database --contigs-fasta ANVIO/$SAMPLE/CONTIGS_2500nt.fa \
                           --num-threads 4
 ```
 
-In this step anvi'o will identify different sets of marker genes with HMM models.
+In this step anvi'o will identify different sets of bacterial, archaeal and eukaryotic marker genes with HMM models and use them to predict the completeness and contamination (redundancy) of bins.
 
 ```bash
 anvi-run-hmms --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
               --num-threads 4
 ```
 
-**TO DO:** Add text about the scg taxonomy
+This step is related to the previous one, here anvi'o looks for a set of single-copy core genes that it will use to predict the taxonomy of individual bins.  
 
 ```bash
 anvi-run-scg-taxonomy --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
                       --num-threads 4
 ```
 
-**TO DO:** Add text about mapping  
+After we have populated to contigs database with various data about the contigs, it is time to use the information in the raw sequencing reads.  
+We will map (basically align) each read to the assembly and then store the information we get from this process to separate file (`.bam`) for each sample.  
+The most important information being where each read aligns and how well.  
+
 Pay attention that below there will be an inception thing going on: a `for loop` inside another `for loop`!
 
 ```bash
@@ -95,7 +98,7 @@ for FILE in $SAMPLES; do
 done
 ```
 
-**TO DO:** Add text about profile db
+From the information stored in the bam files, we (read: __anvi'o__) can calculate the coverage for each base in each contig and also the sequence variation (SNPs) in the community for each nucleotide in each contig.  
 
 ```bash
 mkdir ANVIO/$SAMPLE/PROFILE
@@ -109,7 +112,7 @@ done
 ```
 
 **NOTE:** `for loop` ends here.  
-**TO DO:** Add text about merged profiles
+In this step we just combine the individual profiles (one per sample) and do some clustering based on the detection and frequency of the contigs in each sample.  
 
 ```bash
 anvi-merge ANVIO/$SAMPLE/PROFILE/*/PROFILE.db \
