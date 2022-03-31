@@ -72,7 +72,7 @@ anvi-run-scg-taxonomy --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
 ```
 
 After we have populated to contigs database with various data about the contigs, it is time to use the information in the raw sequencing reads.  
-We will map (basically align) each read to the assembly and then store the information we get from this process to separate file (`.bam`) for each sample.  
+We will map (basically align) each read to the assembly and then store the information we get from this process to separate file (`.bam`) for each sample.  
 The most important information being where each read aligns and how well.  
 
 Pay attention that below there will be an inception thing going on: a `for loop` inside another `for loop`!
@@ -112,7 +112,8 @@ done
 ```
 
 **NOTE:** `for loop` ends here.  
-In this step we just combine the individual profiles (one per sample) and do some clustering based on the detection and frequency of the contigs in each sample.  
+
+In the next step we just combine the individual profiles (one per sample) and do some clustering based on the detection and frequency of the contigs in each sample.  
 
 ```bash
 anvi-merge ANVIO/$SAMPLE/PROFILE/*/PROFILE.db \
