@@ -114,7 +114,22 @@ Start by looking at the assembly logs with `less`.
 2. __How long did the assemblies take to finish?__
 3. __Which sample gave the longest contig?__
 
-### Long-read assembly?
+### Long-read assembly
+
+Short read assemblers are not optimal for long-read data, but there are already several long-read assemblers available. Some of the most used metagenomic assemblers include [metaflye](https://github.com/fenderglass/Flye), [hicanu](https://github.com/marbl/canu) and [hifiasm-meta](https://github.com/xfengnefx/hifiasm-meta).  
+For this course we have used metaflye with the following parameters:
+
+```
+flye \
+    --meta \
+    --threads 12 \
+    --pacbio-hifi  \
+    --min-overlap 4000 \
+    --out-dir INF3_assembly \
+    INF3.fastq.gz
+```
+
+The final assembly can be found from `PATH/TO/ASSEMBLY/assembly.fasta`. 
 
 ## Assembly QC
 
