@@ -117,7 +117,9 @@ Start by looking at the assembly logs with `less`.
 ### Long-read assembly
 
 Short read assemblers are not optimal for long-read data, but there are already several long-read assemblers available. Some of the most used metagenomic assemblers include [metaflye](https://github.com/fenderglass/Flye), [hicanu](https://github.com/marbl/canu) and [hifiasm-meta](https://github.com/xfengnefx/hifiasm-meta).  
-For this course we have used metaflye with the following parameters:
+
+For this course will use a data set of 434 105 PacBio HiFi-reads from one sample with mean length of ~7 500 bp (~3 Gbp).
+And we have used metaflye for the assembly with the following parameters:
 
 ```
 flye \
@@ -129,7 +131,11 @@ flye \
     INF3.fastq.gz
 ```
 
-The final assembly can be found from `PATH/TO/ASSEMBLY/assembly.fasta`. 
+The final assembly can be found from `PATH/TO/ASSEMBLY/assembly.fasta`.
+
+#### Questions about long-read assembly
+1. __What the min-overlap option controls and why we might have used it?__
+2. __How would you change the options if you had nanopore data to assemble?__
 
 ## Assembly QC
 
@@ -171,7 +177,7 @@ Download the file `ASSEMBLY_QC/report.html` to your computer using FileZilla and
 
 #### Questions about the assembly QC
 
-1. __Which assembly has the longest contig when also long reads assemblies are included?__
+1. __Which assembly has the longest contig when also long reads assembly is included?__
 2. __Which assembly had the most contigs?__
-3. __Were the long read assemblies different from the corresponding short read assemblies?__
+3. __Was the long read assembly different from the short read assemblies?__
 4. __If yes, in what way?__
