@@ -116,9 +116,10 @@ Start by looking at the assembly logs with `less`.
 
 ### Long-read assembly
 
-Short read assemblers are not optimal for long-read data, but there are already several long-read assemblers available. Some of the most used metagenomic assemblers include [metaflye](https://github.com/fenderglass/Flye), [hicanu](https://github.com/marbl/canu) and [hifiasm-meta](https://github.com/xfengnefx/hifiasm-meta).  
+Short read assemblers are not optimal for long-read data, but there are already several long-read assemblers available.  
+Some of the most used metagenomic assemblers include [metaflye](https://github.com/fenderglass/Flye), [hicanu](https://github.com/marbl/canu) and [hifiasm-meta](https://github.com/xfengnefx/hifiasm-meta).  
 
-For this course will use a data set of 434 105 PacBio HiFi-reads from one sample with mean length of ~7 500 bp (~3 Gbp).
+For this course will use a data set of 434 105 PacBio HiFi-reads from one sample with mean length of ~7 500 bp (~3 Gbp).  
 And we have used metaflye for the assembly with the following parameters:
 
 ```
@@ -163,7 +164,7 @@ Mini manual for `screen`:
 ```bash
 screen -S metaquast
 
-metaquast.py ASSEMBLY/*/final.contigs.fa \ # ADD THE LONG-READ ASSEMBLY HERE
+metaquast.py ~/Share/ASSEMBLY/*/final.contigs.fa ~/Share/ASSEMBLY_HIFI/assembly.fasta \
              --output-dir ASSEMBLY_QC \
              --threads 4 \
              --max-ref-number 0 \
