@@ -293,7 +293,7 @@ conda activate QC_env
 And now you're ready to run the QC on the raw data:
 
 ```bash
-fastqc ~/Share/RAWDATA*.fastq.gz -o QC_RAW -t 4
+fastqc ~/Share/RAWDATA/*.fastq.gz -o QC_RAW -t 4
 multiqc QC_RAW -o QC_RAW --interactive
 ```
 
