@@ -3,7 +3,7 @@
 | Time      | Activity            | Slides                               | Hands-on                          |
 |-----------|---------------------|--------------------------------------|-----------------------------------|
 | Morning   | Read-based analyses | [Link here](read-based-analyses.pdf) | [Link here](#read-based-analyses) |
-| Afternoon | Metagenome assembly | [Link here](metagenome-assembly.pdf) | [Link here](#metagenome-assembly) |
+| Afternoon | Metagenome assembly | [Link here](assembly-and-qc.pdf) | [Link here](#metagenome-assembly) |
 | Afternoon | Assembly QC         |                                      | [Link here](#assembly-QC)         |
 
 ## Read-based analyses
