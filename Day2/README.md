@@ -132,7 +132,7 @@ flye \
     INF3.fastq.gz
 ```
 
-The final assembly can be found from `PATH/TO/ASSEMBLY/assembly.fasta`.
+The final assembly can be found from `~/Share/ASSEMBLY_HIFI/assembly.fasta`.
 
 #### Questions about long-read assembly
 1. __What the min-overlap option controls and why we might have used it?__
