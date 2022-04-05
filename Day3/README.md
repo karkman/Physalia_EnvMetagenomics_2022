@@ -39,7 +39,7 @@ The first thing we will do is reformat the `FASTA` files so that the headers are
 In the command below we will also remove contigs shorter than 1,000 bp, to make things easier during binning.  
 
 ```bash
-anvi-script-reformat-fasta ASSEMBLY/$SAMPLE/final.contigs.fa \
+anvi-script-reformat-fasta ~/Share/ASSEMBLY/$SAMPLE/final.contigs.fa \
                            --output-file ANVIO/$SAMPLE/CONTIGS_2500nt.fa \
                            --report-file ANVIO/$SAMPLE/CONTIGS_reformat.txt \
                            --prefix $SAMPLE \
