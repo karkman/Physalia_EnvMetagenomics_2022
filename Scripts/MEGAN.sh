@@ -4,7 +4,7 @@
 SAMPLES='ERR1713356 ERR2592255 ERR2683233 ERR4682862'
 
 # Activate the conda environment
-conda activate read_based_env
+source activate read_based_env
 
 # Create output folder
 mkdir MEGAN
