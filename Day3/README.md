@@ -32,7 +32,7 @@ So take a look again at the `MEGAHIT` script from yesterday to see how the synta
 To make it things more organized, let's create a directory for each sample inside the `ANVIO` directory:
 
 ```bash
-mkdir $SAMPLE
+mkdir ANVIO/$SAMPLE
 ```
 
 The first thing we will do is reformat the `FASTA` files so that the headers are clean.  
