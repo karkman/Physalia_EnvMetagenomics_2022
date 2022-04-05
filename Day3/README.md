@@ -142,3 +142,24 @@ ssh -i KEY.pem -L PORT:localhost:PORT USERX@IP-ADDRESS
 Let's take a look together with Carlo to see how to set this up.
 
 ### Binning MAGs
+
+Now we are ready for some serious MAG binning!  
+Let's take a look together on how to use `anvi'o` to bin MAGs, and then take the rest of the day to bin the four samples yourself.  
+Remember to change `--port-number XXXX` to match the port number that you used to log into the cloud.
+
+```bash
+SAMPLES='ERR1713356 ERR2592255 ERR2683233 ERR4682862'
+
+for SAMPLE in $SAMPLES; do
+  anvi-interactive --profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
+                   --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+                   --port-number XXXX \
+                   --server-only
+done
+```
+
+REFINING  
+
+CALLING MAGS  
+
+SUMMARISING  
