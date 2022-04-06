@@ -116,8 +116,6 @@ for FILE in $SAMPLES; do
 done
 ```
 
-**NOTE:** `for loop` ends here.  
-
 In the next step we just combine the individual profiles (one per sample) and do some clustering based on the detection and frequency of the contigs in each sample:
 
 ```bash
