@@ -25,6 +25,8 @@ abricate --db resfinder */CONTIGS_2500nt.fa
 
 ## Long-read data
 
+### Genome-resolved metagenomics with long-reads
+
 After preparing the anvi'o files yourself and exploring the interactive interface by manually binning all four short-read data sets, you should have already a good understanding of the basic of anvi'o. So with the long-read data, we have prepared everything ready for you, so you can go straight to the interactive part.  
 
 The long-read assembly is from a single sample (`INF3`), but there is also long-read data from two additional samples  (`INF1` & `INF2`). So as with short-read data, we have used all samples in the mapping step, although the assembly is only from a single sample.  
@@ -77,9 +79,55 @@ cp -r ~/Share/HIFI_ANVIO/ ./
 cd HIFI_ANVIO
 ```
 
-Then launch the interacive interface for some more manual binning.
+Then launch the interacive interface for some more manual binning. All steps are exactly the same as with the long-reads.  
 
 ```
 conda activate anvio7_env
 anvi-interactive  -c hifi_contigs.db -p SAMPLES-MERGED/PROFILE.db --server-only -P $PORT
 ```
+
+
+### ARG annotation and visualisation of the flanking regions
+
+As you might have realised, there are already ARG annotations in the contigs database. So we can just use the search function to search for few example genes.
+Few ARGs found from multiple contexts are: `blaOXA-491`, `tet(39)`, `ermB` and two that are found next to each other, `msr(E)` and `mph(E)`. Search for these and place the contigs you find in separate bins (one per gene).  
+After selecting bins in anvi'o and storing the collection with some name (e.g. `ARG_contigs`), we can get the contig names and sequences with the following commands.
+```
+conda activate anvio-7.1
+anvi-export-collection -p SAMPLES-MERGED/PROFILE.db -C ARG_contigs -O ARGs
+```
+Check the resulting file and select the first gene you would like to visualise.  
+Then we will export all contigs containing that gene.
+```
+cat ARGs.txt
+
+grep "oxa-491" ARGs.txt |cut -d "_" -f 1,2  > oxa_contigs.txt
+anvi-export-contigs -c hifi_contigs.db --contigs-of-interest oxa_contigs.txt -o oxa_contigs.fasta
+conda deactivate
+```
+
+Make a directory for the gene of interest and split the sequences to individual files inside that folder
+```
+conda activate annotation_env
+mkdir oxa_contigs
+cd oxa_contigs
+seqretsplit ../oxa_contigs.fasta  
+```
+
+Annotate all contigs with prokka
+```
+for file in *.fasta
+do
+    prokka $file -o ${file%_contig*}_PROKKA --prefix ${file%_contig*} --cpus 4
+done
+conda deactivate  
+```
+
+And visualise the contigs with [clinker](https://github.com/gamcil/clinker).    
+When clinker is ready, get the resulting `.html` file using e.g. FileZilla. 
+```
+conda activate  clinker
+clinker *_PROKKA/*.gbk -o clinker -p clinker.html
+```
+
+Then you can re-run the steps for some other ARG.
