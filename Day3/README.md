@@ -150,27 +150,22 @@ Let's take a look together on how to use `anvi'o` to bin MAGs, and then take the
 Remember to change `--port-number XXXX` to match the port number that you used to log into the cloud.
 
 ```bash
-SAMPLES='ERR1713356 ERR2592255 ERR2683233 ERR4682862'
-
-for SAMPLE in $SAMPLES; do
-  anvi-interactive --profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
-                   --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
-                   --port-number XXXX \
-                   --server-only
-done
+anvi-interactive --profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
+                 --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+                 --port-number XXXX \
+                 --server-only
 ```
 
 When you are done with the first round of binning, you can summarise your bins:  
 **NOTE:** If you have saved your collection with a different name, you have to change `--collection-name` below accordingly.
 
 ```bash
-for SAMPLE in $SAMPLES; do
-  anvi-summarize --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
-                 --pan-or-profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
-                 --output-dir ANVIO/"$SAMPLE"_SUMMARY \
-                 --collection-name default \
-                 --quick-summary
-done
+anvi-summarize --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+               --pan-or-profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
+               --output-dir ANVIO/"$SAMPLE"_SUMMARY \
+               --collection-name default \
+               --quick-summary
+
 ```
 
 Download the four `$SAMPLE_SUMMARY` folder to your computer and open the `.html` file in your browser.  
@@ -193,28 +188,24 @@ Below we will create a new collection called **final**, and those bins that are 
 If you look at the command below, you will see that the MAG names will have a prefix indicating the user who binned them and which sample it came from.
 
 ```bash
-for SAMPLE in $SAMPLES; do
-  anvi-rename-bins --profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
-                   --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
-                   --collection-to-read default \
-                   --collection-to-write final \
-                   --prefix "$USER"_"$SAMPLE" \
-                   --report-file ANVIO/$SAMPLE/renamed_MAGs.txt \
-                   --call-MAGs \
-                   --min-completion-for-MAG 50 \
-                   --max-redundancy-for-MAG 10
-done
+anvi-rename-bins --profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
+                 --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+                 --collection-to-read default \
+                 --collection-to-write final \
+                 --prefix "$USER"_"$SAMPLE" \
+                 --report-file ANVIO/$SAMPLE/renamed_MAGs.txt \
+                 --call-MAGs \
+                 --min-completion-for-MAG 50 \
+                 --max-redundancy-for-MAG 10
 ```
 
 And now let's summarise everything again:
 
 ```bash
-for SAMPLE in $SAMPLES; do
-  anvi-summarize --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
-                 --pan-or-profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
-                 --output-dir ANVIO/"$SAMPLE"_SUMMARY_FINAL \
-                 --collection-name final
-done
+anvi-summarize --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+               --pan-or-profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
+               --output-dir ANVIO/"$SAMPLE"_SUMMARY_FINAL \
+               --collection-name final
 ```
 
 Of course, you can go back many times as you wish and redo everything from scratch.  
