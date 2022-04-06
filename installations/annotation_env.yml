@@ -5,3 +5,5 @@ channels:
 dependencies:
   - abricate=1.0.1
   - prokka=1.14.6
+  - clinker-py=0.0.23
+  - emboss=6.6.0

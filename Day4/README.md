@@ -120,14 +120,12 @@ for file in *.fasta
 do
     prokka $file -o ${file%_contig*}_PROKKA --prefix ${file%_contig*} --cpus 4
 done
-conda deactivate  
 ```
 
 And visualise the contigs with [clinker](https://github.com/gamcil/clinker).    
-When clinker is ready, get the resulting `.html` file using e.g. FileZilla. 
+When clinker is ready, get the resulting `.html` file using e.g. FileZilla.
 ```
-conda activate  clinker
 clinker *_PROKKA/*.gbk -o clinker -p clinker.html
 ```
 
-Then you can re-run the steps for some other ARG.
+Then you can re-run the above steps for some other ARG, starting from the `grep` part.
