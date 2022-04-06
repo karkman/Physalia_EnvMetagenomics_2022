@@ -29,6 +29,7 @@ One way to do it is manually: you run the same command four times, each time cha
 A better way to this - especilly if you have tens, hundreds, thousands of samples - is by automating this process.  
 One way of automating a script is by creating a `for loop`, as we have done e.g. when we assembled our metagenomes.  
 So take a look again at the `MEGAHIT` script from yesterday to see how the syntax of the `for loop` works, and let's create loops to run the commands below to prepare the files for anvi'o.  
+**TIP:** Open a text editor (either in your own computer or directly in the cloud) to organize the pipeline.
 
 To make it things more organized, let's create a directory for each sample inside the `ANVIO` directory:
 
@@ -77,7 +78,7 @@ We will map (basically align) the reads to the contigs and then store the inform
 The most important information being where each read aligns and how well.  
 
 Pay attention that below there will be an inception thing going on: a `for loop` inside another `for loop`!  
-This is because, for each assembly, we are mapping the raw sequences all the four samples, not only the sample that was used to make the assembly.
+This is because, for each assembly, we are mapping the raw sequences from all the four samples, not only the sample that was used to make the assembly.
 Not sure why? Don't despair: this will become more clear when we are actually binning the MAGs.
 
 ```bash
