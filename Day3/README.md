@@ -129,8 +129,9 @@ anvi-merge ANVIO/$SAMPLE/PROFILE/*/PROFILE.db \
 ### Tunneling the interactive interface
 
 Although you can install anvi'o on your own computer (and you're free to do so, but we won't have time to help in that, but take a look [here](https://anvio.org/install/)), we will run anvi'o in the cloud and tunnel the interactive interface to your local computer.  
-To be able to to do this, everyone needs to use a different port for tunneling and your port will be __8080 + you user number__.  
-So `user1` will use port 8081, `user2` will use port 8082 and so on, `user10` will use port 8090, `user20` will use port 8100, and so on.
+To be able to to do this, everyone needs to log into the cloud using a different port; your port will be __8080 + you user number__.  
+So `user1` will use port 8081, `user2` will use port 8082 and so on, `user10` will use port 8090, `user20` will use port 8100, and so on.  
+If you're
 
 #### Linux/Mac
 
@@ -159,8 +160,66 @@ for SAMPLE in $SAMPLES; do
 done
 ```
 
-REFINING  
+When you are done with the first round of binning, you can summarise your bins:  
+**NOTE:** If you have saved your collection with a different name, you have to change `--collection-name` below accordingly.
 
-CALLING MAGS  
+```bash
+for SAMPLE in $SAMPLES; do
+  anvi-summarize --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+                 --pan-or-profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
+                 --output-dir ANVIO/"$SAMPLE"_SUMMARY \
+                 --collection-name default \
+                 --quick-summary
+done
+```
 
-SUMMARISING  
+Download the four `$SAMPLE_SUMMARY` folder to your computer and open the `.html` file in your browser.  
+Do you see some bin(s) that you will like to refine, or just check?  
+You can do so like this:
+
+```bash
+anvi-refine --profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
+            --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+            --collection-name default \
+            --bin-id $BIN \
+            --port-number XXXX \
+            --server-only
+```
+
+When you are happy with binning and refining, it's time to rename things a bit to make things easier downstream.  
+Here we will decide that all bins that are ≥50% complete and ≤10% redundant ("contaminated") are good enough.  
+You should use, however, the thresholds that you feel are more aligned with your research question.  
+Below we will create a new collection called **final**, and those bins that are above the threshold we selected will be renamed as MAGs.  
+If you look at the command below, you will see that the MAG names will have a prefix indicating the user who binned them and which sample it came from.
+
+```bash
+for SAMPLE in $SAMPLES; do
+  anvi-rename-bins --profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
+                   --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+                   --collection-to-read default \
+                   --collection-to-write final \
+                   --prefix "$USER"_"$SAMPLE" \
+                   --report-file ANVIO/$SAMPLE/renamed_MAGs.txt \
+                   --call-MAGs \
+                   --min-completion-for-MAG 50 \
+                   --max-redundancy-for-MAG 10
+done
+```
+
+And now let's summarise everything again:
+
+```bash
+for SAMPLE in $SAMPLES; do
+  anvi-summarize --contigs-db ANVIO/$SAMPLE/CONTIGS.db \
+                 --pan-or-profile-db ANVIO/$SAMPLE/MERGED/PROFILE.db \
+                 --output-dir ANVIO/"$SAMPLE"_SUMMARY_FINAL \
+                 --collection-name final
+done
+```
+
+Of course, you can go back many times as you wish and redo everything from scratch.  
+You can try different ways of binning and refining, basically ad infinitum.  
+But no matter how much you try to avoid, at one point you have to get over binning the MAGs and actually start writing that paper...  
+For now, let's take a well deserved rest :)
+
+![](https://i.pinimg.com/originals/61/0e/2b/610e2b80ac1632e0e7a0f47f5effc08d.jpg)
