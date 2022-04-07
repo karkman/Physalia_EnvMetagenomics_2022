@@ -7,29 +7,37 @@
 
 ## Downstream analyses
 
-When you're happy with the bins you got and have called MAGs in the last `anvi-rename-bins`and `anvi-summarize` commands, copy all the MAGs you got into one folder.
+When you're happy with the bins you got and have called MAGs in the last `anvi-rename-bins`and `anvi-summarize` commands, copy all the MAGs you got into one folder.  
 This might work for you:
-```
+
+```bash
 cd ~/Physalia_EnvMetagenomics_2022
 mkdir MAG_folder
 cp ANVIO/*/bin_by_bin/*MAG*/*-contigs.fa MAG_folder/
 ```
+
 After it's done, list the content of the folder to see how many MAGs you have in total.
 
 ### CheckM
 
-Although anvi'o gives us estimates about the completeness and redundancy, we'll double check those by using checkM.  
+Although anvi'o gives us estimates about the completeness and redundancy, we'll double check those by using [checkM](https://ecogenomics.github.io/CheckM/).  
 Make sure you change the input folder and the output folder in the command below.  
 Running checkM took about 10 min for 16 MAGs.
 
-```
+```bash
 conda activate MAG_annotation_env
-checkm lineage_wf -x fa PATH/TO/GENOME/FOLDER OUTPUT_FOLDER -t 4 --tmpdir /tmp
+
+checkm lineage_wf -x fa \
+                  MAG_folder \
+                  checkM_out \
+                  -t 4 \
+                  --tmpdir /tmp
 ```
 
 The output table is printed on to the screen. If you missed it, you can quickly reproduce it with:
+
 ```
-checkm qa ./OUTPUT_FOLDER/lineage.ms ./OUTPUT_FOLDER
+checkm qa checkM_out/lineage.ms checkM_out
 ```
 
 __Were the checkM results in line with the estimates from anvi'o?__
