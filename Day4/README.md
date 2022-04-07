@@ -49,7 +49,7 @@ However, this step takes too much memory, so we won't run it.
 
 ```
 ## DO NOT RUN ###
-gtdbtk classify_wf -x fa 
+gtdbtk classify_wf -x fa \
                    --genome_dir MAG_folder \
                    --out_dir GTDB \
                    --cpus 4 \
