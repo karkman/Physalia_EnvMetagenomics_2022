@@ -6,7 +6,7 @@
 | Afternoon |  |                                               | [Link here](#genome-resolved-metagenomics) |
 
 
-When you're happy with the bins you got and have called MAGs in the last `anvi-summarize` command, copy all the MAGs you got into one folder.
+When you're happy with the bins you got and have called MAGs in the last `anvi-rename-bins`and `anvi-summarize` commands, copy all the MAGs you got into one folder.
 This might work for you:
 ```
 cd ~/Physalia_EnvMetagenomics_2022
