@@ -1,9 +1,9 @@
 # Day 4
 
-| Time      | Activity                                 | Slides                                             | Hands-on                                                 |
-|-----------|------------------------------------------|----------------------------------------------------|----------------------------------------------------------|
-| Morning   | Genome-resolved metagenomics with anvi'o | [Link here](Day3/genome-resolved-metagenomics.pdf) | [Link here](Day3/README.md#genome-resolved-metagenomics) |
-| Afternoon | Downstream analyses                      |                                                    | [Link here](#downstream-analyses) |
+| Time      | Activity                                 | Slides                                                | Hands-on                                                    |
+|-----------|------------------------------------------|-------------------------------------------------------|-------------------------------------------------------------|
+| Morning   | Genome-resolved metagenomics with anvi'o | [Link here](../Day3/genome-resolved-metagenomics.pdf) | [Link here](../Day3/README.md#genome-resolved-metagenomics) |
+| Afternoon | Downstream analyses                      |                                                       | [Link here](#downstream-analyses)                           |
 
 ## Downstream analyses
 
