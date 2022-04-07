@@ -49,7 +49,7 @@ However, this step takes too much memory, so we won't run it.
 
 ```
 ## DO NOT RUN ###
-gtdbtk classify_wf -x fa 
+gtdbtk classify_wf -x fa
                    --genome_dir MAG_folder \
                    --out_dir GTDB \
                    --cpus 4 \
@@ -150,35 +150,26 @@ anvi-interactive  -c hifi_contigs.db -p SAMPLES-MERGED/PROFILE.db --server-only 
 ### ARG annotation and visualisation of the flanking regions
 
 As you might have realised, there are already ARG annotations in the contigs database. So we can just use the search function to search for few example genes.
-Few ARGs found from multiple contexts are: `blaOXA-491`, `tet(39)`, `ermB` and two that are found next to each other, `msr(E)` and `mph(E)`. Search for these and place the contigs you find in separate bins (one per gene).  
-After selecting bins in anvi'o and storing the collection with some name (e.g. `ARG_contigs`), we can get the contig names and sequences with the following commands.
-```
-conda activate anvio-7.1
-anvi-export-collection -p SAMPLES-MERGED/PROFILE.db -C ARG_contigs -O ARGs
-```
-Check the resulting file and select the first gene you would like to visualise.  
-Then we will export all contigs containing that gene.
-```
-cat ARGs.txt
+Few ARGs found from multiple contexts are: `blaOXA-491`, `tet(39)`, `ermB` and two that are found next to each other, `msr(E)` and `mph(E)`.  
+Explore the genetic context of these genes in the interactive view of anvi'o by inspecting the splits containing the genes of interest.  
 
-grep "oxa-491" ARGs.txt |cut -d "_" -f 1,2  > oxa_contigs.txt
-anvi-export-contigs -c hifi_contigs.db --contigs-of-interest oxa_contigs.txt -o oxa_contigs.fasta
-conda deactivate
+We can also extract these regions from the contigs database with `anvi-export-locus` base on the ARG annotation.
+
+```
+conda activate anvio7_env
+cd ~/Physalia_EnvMetagenomics_2022/HIFI_ANVIO
+mkdir oxa-491
+anvi-export-locus -c hifi_contigs.db --num-genes 5,5 --search-term "oxa-491" -O oxa_491 -o oxa-491
 ```
 
-Make a directory for the gene of interest and split the sequences to individual files inside that folder
+This will give us each context in a separate fasta file. We will then use prokka to annotate these contigs before visualizing them.  
 ```
 conda activate annotation_env
-mkdir oxa_contigs
-cd oxa_contigs
-seqretsplit ../oxa_contigs.fasta  
-```
+cd oxa-491
 
-Annotate all contigs with prokka
-```
-for file in *.fasta
+for file in *.fa
 do
-    prokka $file -o ${file%_contig*}_PROKKA --prefix ${file%_contig*} --cpus 4
+    prokka $file -o ${file%.fa}_PROKKA --prefix ${file%.fa} --cpus 4
 done
 ```
 

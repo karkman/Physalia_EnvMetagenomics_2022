@@ -1,7 +1,8 @@
 name: annotation_env
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
+  - defaults
 dependencies:
   - abricate=1.0.1
   - prokka=1.14.6
