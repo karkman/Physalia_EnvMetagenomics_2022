@@ -44,12 +44,16 @@ __Were the checkM results in line with the estimates from anvi'o?__
 
 ### GTDB-Tk
 
-Next step would be to give some labels to our MAGs, but this takes too much memory, so we don't run it.
+Next step would be to run [GTDB-Tk](https://github.com/Ecogenomics/GtdbTk) to get the phylogenetic assignment of our MAGs.  
+However, this step takes too much memory, so we won't run it.
 
 ```
 ## DO NOT RUN ###
-gtdbtk classify_wf -x fa --genome_dir PATH/TO/GENOME/FOLDER \
-                   --out_dir OUTPUT/FOLDER --cpus 4 --tmpdir /tmp
+gtdbtk classify_wf -x fa 
+                   --genome_dir MAG_folder \
+                   --out_dir GTDB \
+                   --cpus 4 \
+                   --tmpdir /tmp
 ```
 
 
