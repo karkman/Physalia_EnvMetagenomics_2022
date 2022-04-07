@@ -56,8 +56,19 @@ gtdbtk classify_wf -x fa
                    --tmpdir /tmp
 ```
 
+### dRep
 
-### dREP
+Often we retrieve MAGs that are very closely related to each other, specially if you are binning several samples at the same time.  
+In this case, you might be interested in removing the redundancy (i.e. deplicating) and keep only one MAG from each cluster of closely related MAGs.  
+For this, we can use a tool called [dRep](https://drep.readthedocs.io/en/latest/), but guess what, you can do that in `anvio` as well...
+
+```bash
+source activate drep_env
+
+dRep compare MAGs_drep \
+             --genomes MAG_folder/*.fa \
+             --processors 4
+```
 
 
 ### Antibiotic resistance gene annotation
