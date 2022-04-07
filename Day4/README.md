@@ -1,10 +1,11 @@
 # Day 4
 
-| Time      | Activity                     | Slides                                        | Hands-on                                   |
-|-----------|------------------------------|-----------------------------------------------|--------------------------------------------|
-| Morning   |  | [Link here](Day3/genome-resolved-metagenomics.pdf) | [Link here](#genome-resolved-metagenomics) |
-| Afternoon |  |                                               | [Link here](#genome-resolved-metagenomics) |
+| Time      | Activity                                 | Slides                                             | Hands-on                                                 |
+|-----------|------------------------------------------|----------------------------------------------------|----------------------------------------------------------|
+| Morning   | Genome-resolved metagenomics with anvi'o | [Link here](Day3/genome-resolved-metagenomics.pdf) | [Link here](Day3/README.md#genome-resolved-metagenomics) |
+| Afternoon | Downstream analyses                      |                                                    | [Link here](#downstream-analyses) |
 
+## Downstream analyses
 
 When you're happy with the bins you got and have called MAGs in the last `anvi-rename-bins`and `anvi-summarize` commands, copy all the MAGs you got into one folder.
 This might work for you:
