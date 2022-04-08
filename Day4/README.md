@@ -98,7 +98,7 @@ Not all of the these programs are installed on the amazon cloud, but they are fr
 
 ```
 #############################################################################################
-##                               DO NOT TRY RUN THIS                                       ##
+##                               DO NOT RUN THIS                                          ##
 #############################################################################################
 
 prokka --outdir INF3_PROKKA --prefix INF3 --metagenome --cpus 6 --coverage 0.5 assembly.fasta
@@ -116,7 +116,7 @@ anvi-run-hmms -c hifi_contigs.db -T 6
 anvi-run-ncbi-cogs -c hifi_contigs.db -T 6
 anvi-run-scg-taxonomy -c hifi_contigs.db -T 6
 anvi-get-sequences-for-gene-calls -o gene-calls.fa -c hifi_contigs.db
-centrifuge -f -x ~/projappl/centrifuge/p_compressed gene-calls.fa -S centrifuge_hits.tsv
+centrifuge -f -x PATH/TO/CENTRIFUGE_DB gene-calls.fa -S centrifuge_hits.tsv
 anvi-import-taxonomy-for-genes -c hifi_contigs.db -i centrifuge_report.tsv centrifuge_hits.tsv -p centrifuge
 
 blastn -query gene-calls.fa -subject PATH/TO/resfinder.fasta -outfmt 6 -evalue 1e-20 -out resfinder.out -max_target_seqs 1
